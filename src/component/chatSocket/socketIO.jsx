@@ -9,14 +9,22 @@ const ChatSocketIo = ()=>{
     useEffect(async()=>{
         // const socket = io('http://localhost:4000');
         const socket= socketIoClient("http://192.168.100.9:4000");
-        var data = await fetch('http://192.168.100.9:4000/listnames')
+        
+        try{
 
-        setNames(await data.json());
-        socket.on('[user] addNewUser',data=>{
-            console.log('connected to server',data);
-            setNames(data);
-        })
+            var data = await fetch('http://192.168.100.9:4000/listnames')
+            setNames(await data.json());
+            socket.on('[user] addNewUser',data=>{
+                console.log('connected to server',data);
+                setNames(data);
+            })
 
+        }
+        catch(e){
+            console.log("error al traer los datos inciales")
+        }
+
+        
         console.log('init socket')
     },[])
 
